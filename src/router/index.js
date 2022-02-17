@@ -16,7 +16,85 @@ const routes = [
   {
     path: "/home",
     name: "Home",
-    component: () => import('@/views/Home.vue'),
+    component: () => import("@/views/Home.vue"),
+    children: [
+      {
+        path: "",
+        name: "home",
+        component: () => import("@/components/home.vue"),
+      },
+      {
+        path: "/userList",
+        name: "userList",
+        component: () => import("@/components/userList.vue"),
+      },
+      ,
+      {
+        path: "/addGoods",
+        name: "addGoods",
+        component: () => import("@/components/addGoods.vue"),
+      },
+      {
+        path: "/addShop",
+        name: "addShop",
+        component: () => import("@/components/addShop.vue"),
+      },
+      {
+        path: "/adminList",
+        name: "adminList",
+        component: () => import("@/components/adminList.vue"),
+      },
+      {
+        path: "/adminSet",
+        name: "adminSet",
+        component: () => import("@/components/adminSet.vue"),
+      },
+      {
+        path: "/explain",
+        name: "explain",
+        component: () => import("@/components/explain.vue"),
+      },
+      {
+        path: "/foodList",
+        name: "foodList",
+        component: () => import("@/components/foodList.vue"),
+      },
+      {
+        path: "/newMember",
+        name: "newMember",
+        component: () => import("@/components/newMember.vue"),
+      },
+      {
+        path: "/orderList",
+        name: "orderList",
+        component: () => import("@/components/orderList.vue"),
+      },
+      {
+        path: "/sendMessage",
+        name: "sendMessage",
+        component: () => import("@/components/sendMessage.vue"),
+      },
+      {
+        path: "/shopList",
+        name: "shopList",
+        component: () => import("@/components/shopList.vue"),
+      },
+      {
+        path: "/uploadImg",
+        name: "uploadImg",
+        component: () => import("@/components/uploadImg.vue"),
+      },
+      {
+        path: "/visitor",
+        name: "visitor",
+        component: () => import("@/components/visitor.vue"),
+      },
+      {
+        path: "/vueEdit",
+        name: "vueEdit",
+        component: () => import("@/components/vueEdit.vue"),
+      },
+    ],
   },
   // {
   //   path: '/',
@@ -33,14 +111,15 @@ const routes = [
   // }
 ];
 
-
 const router = new VueRouter({
   routes,
 });
 
-router.beforeEach((to,from,next) =>{
-  if(to.path !== '/login' && !sessionStorage.getItem('log')){
-    next('/login')
-  }else{next()}
-})
+router.beforeEach((to, from, next) => {
+  if (to.path !== "/login" && !sessionStorage.getItem("log")) {
+    next("/login");
+  } else {
+    next();
+  }
+});
 export default router;
