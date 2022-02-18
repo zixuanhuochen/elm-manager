@@ -15,12 +15,10 @@ const routes = [
   },
   {
     path: "/home",
-    name: "Home",
     component: () => import("@/views/Home.vue"),
     children: [
       {
         path: "",
-        name: "home",
         component: () => import("@/components/home.vue"),
       },
       {
@@ -113,13 +111,12 @@ const routes = [
 
 const router = new VueRouter({
   routes,
+  scrollBehavior(to, from, savedPosition) {
+    return {y: 0 };
+  },
 });
 
-router.beforeEach((to, from, next) => {
-  if (to.path !== "/login" && !sessionStorage.getItem("log")) {
-    next("/login");
-  } else {
-    next();
-  }
-});
+// router.beforeEach((to, from, next) => {
+  
+// });
 export default router;

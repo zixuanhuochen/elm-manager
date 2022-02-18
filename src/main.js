@@ -6,6 +6,9 @@ import '@/assets/css/normalize.css'
 import '@/assets/css/base.css'
 
 import 'element-ui/lib/theme-chalk/index.css';
+import headerTop from '@/components/common/headerTop.vue'
+
+Vue.component('headerTop',headerTop)
 
 Vue.config.productionTip = false
 

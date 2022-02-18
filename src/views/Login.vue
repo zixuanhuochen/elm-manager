@@ -61,7 +61,6 @@ export default {
             this.$router.push('/home')
           }else{
             this.$message({type:'error',message:result.message})
-            console.log(result);
           }
         } else {
           this.message({type:'error',message:'请输入正确信息'})
