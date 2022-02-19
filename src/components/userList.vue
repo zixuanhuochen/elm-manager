@@ -2,7 +2,7 @@
   <div class="userList">
     <headerTop :Breadcrumb="Breadcrumb"></headerTop>
     <el-card>
-      <el-table :data="userList"  style="width: 100%" highlight-current-row>
+      <el-table :data="userList" style="width: 100%" highlight-current-row>
         <el-table-column type="index" width="150" label="#"></el-table-column>
         <el-table-column prop="registe_time" label="注册日期" width="280">
         </el-table-column>
@@ -10,12 +10,13 @@
         </el-table-column>
         <el-table-column prop="city" label="注册地址"> </el-table-column>
       </el-table>
+      <paginationNav :total="total" @changePage="changePage"></paginationNav>
     </el-card>
   </div>
 </template>
 
 <script>
-import { getUserList } from "@/network";
+import { getUserList, getUserCount } from "@/network";
 export default {
   name: "userList",
   data() {
@@ -25,7 +26,8 @@ export default {
         limit: 20,
         offset: 0,
       },
-      userList:[]
+      userList: [],
+      total: 0,
     };
   },
   mounted() {
@@ -34,8 +36,18 @@ export default {
   methods: {
     async getUserLists() {
       const { data: result } = await getUserList(this.userListSize);
-      console.log(result);
-      this.userList = result
+     this.userList = result
+      const { data: count } = await getUserCount();
+      if(count.status === 1){
+        this.total = count.count
+      }else{
+        this.$message.error('获取用户信息失败')
+      }
+    },
+
+    changePage(val) {
+      this.userListSize.offset = (val - 1) *20
+      this.getUserLists();
     },
   },
 };

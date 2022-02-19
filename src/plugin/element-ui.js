@@ -1,4 +1,4 @@
-import {Button,Message,MessageBox,Form,FormItem,Input,Row,Col,Menu,Submenu,MenuItemGroup,MenuItem,Breadcrumb,BreadcrumbItem,Dropdown,DropdownItem,DropdownMenu,Card,Table,TableColumn } from "element-ui";
+import {Button,Message,MessageBox,Form,FormItem,Input,Row,Col,Menu,Submenu,MenuItemGroup,MenuItem,Breadcrumb,BreadcrumbItem,Dropdown,DropdownItem,DropdownMenu,Card,Table,TableColumn,Pagination} from "element-ui";
 import Vue from "vue";
 
 Vue.use(Button)
@@ -19,6 +19,7 @@ Vue.use(DropdownMenu)
 Vue.use(Card)
 Vue.use(Table)
 Vue.use(TableColumn)
+Vue.use(Pagination)
 
 Vue.prototype.$message = Message;
 Vue.prototype.$confirm = MessageBox.confirm;

@@ -19,7 +19,7 @@
               <i class="el-icon-document"></i>
               <span>数据管理</span>
             </template>
-            <el-menu-item index="userList">用户列表</el-menu-item>
+            <el-menu-item index='userList'>用户列表</el-menu-item>
             <el-menu-item index="shopList">商家列表</el-menu-item>
             <el-menu-item index="foodList">食品列表</el-menu-item>
             <el-menu-item index="orderList">订单列表</el-menu-item>
@@ -78,7 +78,9 @@ import {getAdminInfo} from '@/network'
 export default {
   name: "Home",
   data() {
-    return {};
+    return {
+      val:1
+    };
   },
   mounted(){
     this.getAdminInfoImg()
