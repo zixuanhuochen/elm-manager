@@ -18,3 +18,7 @@ export const getAdminList = ({ offset, limit }) => http({
   url:`/admin/all?offset=${offset}&limit=${limit}`,
   method:'get'
 })
+export const getFoodList = ({ offset, limit }) => http({url:`/shopping/v2/foods?offset=${offset}&limit=${limit}`, method:'get'})
+export const getFoodCount = () => http({url:'/shopping/v2/foods/count', method:'get' })
+export const getCategoryInfo = category_id => http({url:`/shopping/v2/menu/${category_id}`,method:'get' })
+export const getRestaurantInfo = restaurant_id => http({url:`/shopping/restaurant/${restaurant_id}`,method:'get' })
