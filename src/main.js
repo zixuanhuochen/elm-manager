@@ -4,7 +4,7 @@ import router from './router'
 import './plugin/element-ui'
 import '@/assets/css/normalize.css'
 import '@/assets/css/base.css'
-
+import 'default-passive-events'
 import 'element-ui/lib/theme-chalk/index.css';
 import headerTop from '@/components/common/headerTop.vue'
 import paginationNav from '@/components/common/paginationNav.vue'

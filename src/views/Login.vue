@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="login" @keyup.enter="submitForm">
     <div class="logInput">
       <h2>后台管理登录</h2>
       <el-form
@@ -16,7 +16,7 @@
           <el-input v-model="ruleForm.password" show-password></el-input>
         </el-form-item>
       </el-form>
-      <el-button @click="submitForm" type="primary">登录</el-button>
+      <el-button @click="submitForm" type="primary" >登录</el-button>
     </div>
   </div>
 </template>

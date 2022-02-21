@@ -22,3 +22,4 @@ export const getFoodList = ({ offset, limit }) => http({url:`/shopping/v2/foods?
 export const getFoodCount = () => http({url:'/shopping/v2/foods/count', method:'get' })
 export const getCategoryInfo = category_id => http({url:`/shopping/v2/menu/${category_id}`,method:'get' })
 export const getRestaurantInfo = restaurant_id => http({url:`/shopping/restaurant/${restaurant_id}`,method:'get' })
+export const getShopCategory = restaurant_id => http({url:`/shopping/getcategory/${restaurant_id}`,method:'get' })
