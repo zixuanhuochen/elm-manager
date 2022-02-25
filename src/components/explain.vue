@@ -9,7 +9,7 @@ export default {
 name:'explain',
 data(){
   return {
-    Breadcrumb:['说明', '说明']
+    Breadcrumb:['说明', '说明 ']
   }
 },
 
