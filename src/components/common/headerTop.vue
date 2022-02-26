@@ -57,7 +57,7 @@ export default {
 
 <style>
 .headerTop {
-  height: 60px;
+  height: 55px;
   background-color: #eff2f7;
   display: flex;
   justify-content: space-between;
@@ -67,5 +67,6 @@ export default {
 .imgPic{
   width: 50px;
   height: 50px;
+  border-radius: 50%;
 }
 </style>

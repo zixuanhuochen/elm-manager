@@ -101,24 +101,7 @@
             <i style="fontsize: 10px; color: red">只允许上传jepg格式图片</i>
           </el-form-item>
         </el-form>
-        <el-row style="overflow: auto; text-align: center">
-          <el-table :data="foodForm.specfoods" border style="width: 100%" class="specStyle">
-            <el-table-column prop="specs" label="规格"> </el-table-column>
-            <el-table-column prop="packing_fee" label="包装费">
-            </el-table-column>
-            <el-table-column prop="price" label="价格"></el-table-column>
-            <el-table-column label="操作">
-              <template slot-scope="scope">
-                <el-button
-                  size="small"
-                  type="danger"
-                  @click="deleteSpecs(scope.row)"
-                  >删除</el-button
-                >
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-row>
+        
 
         <div slot="footer" class="dialog-footer">
           <el-button @click="cancelFile">取 消</el-button>
@@ -136,6 +119,8 @@ import {
   getCategoryInfo,
   getRestaurantInfo,
   getShopCategory,
+  updateFood,
+  removeFood
 } from "@/network";
 export default {
   name: "foodList",
@@ -252,6 +237,7 @@ export default {
       if (response.status === 1) {
         this.foodForm.image_path =
           "https://elm.cangdu.org/img/" + response.image_path;
+          this.addFoodList(this.foodForm)
       } else {
         this.$message.error("图片上传失败");
       }
@@ -286,7 +272,21 @@ export default {
       }),
         (this.isShowDialog = false);
     },
-    deleteSpecs(row) {},
+    async addFoodList(form) {
+      const result = await updateFood(form)
+      console.log(result);
+    },
+    async removFoodInfo(row){
+      let foodId = row.specfoods.food_id
+      const removedFood = await removeFood(foodId)
+      console.log(removedFood);
+      if(removedFood.status.data === 1){
+        this.$message.success('删除成功')
+        this.getFoodLists();
+      }else {
+        this.$message.error(removedFood.data.message)
+      }
+    }
   },
   computed: {
     getFoodInfo() {
@@ -317,8 +317,6 @@ export default {
   margin-bottom: 0;
   width: 50%;
 }
-.specStyle th .cell{
-  color: black;
-}
+
 
 </style>
