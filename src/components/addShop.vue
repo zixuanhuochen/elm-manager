@@ -22,10 +22,11 @@
               <el-input v-model="shopForm.promotion_info"></el-input>
             </el-form-item>
             <el-form-item label="店铺分类" prop="category">
-              <el-cascader
+                <el-cascader
                 v-model="category"
                 :options="categoryList"
                 :props="{ expandTrigger: 'hover' }"
+                ref="xuanzeqi"
               ></el-cascader>
             </el-form-item>
             <el-form-item label="店铺特点" class="shopBoxInfo">
@@ -315,9 +316,11 @@ export default {
       // this.shopAvatarState = false
       // this.shopCaterServiceState = false
       // this.shopBusinessServiceState = false
-      // this.shopForm = Object.assign(this.shopForm,this.$options.data().shopForm)
-      Object.assign(this.$data,this.$options.data())
+      this.shopForm = Object.assign(this.shopForm,this.$options.data().shopForm)
+      // Object.assign(this.$data,this.$options.data())
       this.getFoodCategoryList();
+      this.category = []
+      this.activityValue=''
       
       console.log(this.shopForm);
     },
@@ -456,8 +459,7 @@ export default {
   watch: {
     category:{
       handler:function(newValue){
-        console.log(newValue);
-      this.shopForm.category = newValue.join(",") || '';
+      this.shopForm.category = newValue.join(",") ;
       }
     },
   },
