@@ -86,7 +86,6 @@ export default {
         result.status === 200
           ? this.orderListsPrice(result.data)
           : this.$message.error("获取订单列表失败");
-      console.log(this.orderList);
     },
     async getOrderInfo(row, expandedRows) {
       if (expandedRows.length > 0) {

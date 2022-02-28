@@ -8,6 +8,7 @@
     :page-size='20'
     layout="total,  prev, pager, next, jumper"
     :total="total"
+    style="marginTop:15px"
   >
   </el-pagination>
 </template>

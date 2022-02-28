@@ -44,3 +44,4 @@ export const getUserInfo = (data) =>
   http({ url: "/v1/user/" + data, method: "get" });
 export const removeFood = (data) =>
   http({ url: "/shopping/v2/food/" + data, method: "delete" });
+export const getFoodCategory = () => http({ url: '/shopping/v2/restaurant/category', method: 'get' })

@@ -37,7 +37,7 @@
         >
         <el-col :span="4"
           ><div class="data_list">
-            <span class="data_num">{{ allAdminCount }}22</span> 管理员
+            <span class="data_num">{{ allAdminCount }}</span> 管理员
           </div></el-col
         >
       </el-row>

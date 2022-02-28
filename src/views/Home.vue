@@ -104,11 +104,14 @@ export default {
   font-size: 16px;
 }
 .el-menu-item {
-  background-color: rgb(40, 51, 70);
+  background-color: rgb(40, 51, 70) ;
 }
 
 .el-menu--dark .el-menu-item:hover,
 .el-menu--dark .el-submenu__title:hover {
   background-color: #48576a;
+}
+.el-submenu .el-menu-item{
+  min-width:0
 }
 </style>
