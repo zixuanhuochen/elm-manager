@@ -45,3 +45,8 @@ export const getUserInfo = (data) =>
 export const removeFood = (data) =>
   http({ url: "/shopping/v2/food/" + data, method: "delete" });
 export const getFoodCategory = () => http({ url: '/shopping/v2/restaurant/category', method: 'get' })
+export const addShopInfo = data => http({url:'/shopping/addshop',method:'post',data})
+export const getRestaurantsList = (data) => http({url:'/shopping/restaurants', method:'get',params:data})
+export const getRestaurantCount = () => http({url:'/shopping/restaurants/count',method:'get'})
+export const updateShop = data => http({url:'/shopping/updateshop',method:'post',data})
+export const removeShop = id => http({url:'/shopping/restaurant/' + id, method:'delete'})

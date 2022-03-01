@@ -36,6 +36,7 @@
               ><el-switch v-model="shopForm.delivery_mode"> </el-switch>
               <span>新开店铺</span
               ><el-switch v-model="shopForm.new"> </el-switch>
+              <br>
               <span>外卖宝</span
               ><el-switch v-model="shopForm.bao"> </el-switch>
               <span>准时达</span
@@ -180,10 +181,10 @@
             </el-table>
 
             <el-form-item style="marginTop: 15px">
-              <el-button type="primary" @click="submitForm()"
+              <el-button type="primary" @click="submitForm"
                 >立即创建</el-button
               >
-              <el-button @click="resetForm()">重置</el-button>
+              <el-button @click="resetForm">重置</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -193,7 +194,7 @@
 </template>
 
 <script>
-import { getFoodCategory } from "@/network/";
+import { getFoodCategory,addShopInfo } from "@/network/";
 export default {
   name: "addShop",
   data() {
@@ -300,10 +301,14 @@ export default {
       }
     },
     submitForm() {
-      this.$refs.shopForm.validate((valid) => {
+      this.$refs.shopForm.validate(async (valid) => {
         if (valid) {
+          const addStatus = await addShopInfo(this.shopForm)
+          console.log(addStatus);
+          addStatus.data.status === 1 ? this.$message.success('添加成功') : this.$message.error(addStatus.data.message)
           console.log(this.shopForm);
         } else {
+          this.$message.error('信息不完整请检查！')
           console.log("error submit!!");
           return false;
         }

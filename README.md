@@ -1,5 +1,7 @@
 # elm-manage
+# About
 
+此项目是 vue + element-ui 构建的后台管理系统，参照github作者bailicangdu及API进行自我开发项目。
 ## Project setup
 ```
 npm install
