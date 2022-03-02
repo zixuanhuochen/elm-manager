@@ -15,11 +15,11 @@ const routes = [
   },
   {
     path: "/home",
-    name:'home',
     component: () => import("@/views/Home.vue"),
     children: [
       {
         path: "",
+        name:'home',
         component: () => import("@/components/home.vue"),
       },
       {
@@ -120,7 +120,14 @@ const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)
 }
-// router.beforeEach((to, from, next) => {
-  
-// });
+router.beforeEach((to, from, next) => {
+  if(to.path === '/addGoods'){
+    if(!to.query.restaurant_id){
+      next('/shopList')
+    }else{
+      next()
+    }
+  }
+  next()
+});
 export default router;

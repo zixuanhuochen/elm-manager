@@ -1,7 +1,8 @@
-import { Button, Message, MessageBox, Form, FormItem, Input, Row, Col, Menu, Submenu, MenuItemGroup, MenuItem, Breadcrumb, BreadcrumbItem, Dropdown, DropdownItem, DropdownMenu, Card, Table, TableColumn, Pagination, Dialog, Select, Option, Upload, DatePicker, Switch, TimePicker, InputNumber, TimeSelect, Cascader, } from "element-ui";
+import { Button, Message, MessageBox, Form, FormItem, Input, Row, Col, Menu, Submenu, MenuItemGroup, MenuItem, Breadcrumb, BreadcrumbItem, Dropdown, DropdownItem, DropdownMenu, Card, Table, TableColumn, Pagination, Dialog, Select, Option, Upload, DatePicker, Switch, TimePicker, InputNumber, TimeSelect, Cascader, Radio} from "element-ui";
 import Vue from "vue";
 
 
+Vue.use(Radio)
 Vue.use(Cascader)
 Vue.use(TimeSelect)
 Vue.use(InputNumber)

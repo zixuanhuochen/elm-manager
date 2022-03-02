@@ -2,59 +2,107 @@
   <div class="userList">
     <headerTop :Breadcrumb="Breadcrumb"></headerTop>
     <h1>数据统计</h1>
-    <div class="statistical">
-      <el-row style="marginBottom: 10px">
-        <el-col :span="4"
-          ><div class="data_list today_head">
-            <span class="data_num head">当日数据：</span>
-          </div></el-col
-        >
-        <el-col :span="4"><div class="data_list">
-            <span class="data_num">{{ userCount }}</span> 新增用户
-          </div></el-col>
-        <el-col :span="4"><div class="data_list">
-            <span class="data_num">{{ orderCount }}</span> 新增订单
-          </div></el-col>
-        <el-col :span="4"><div class="data_list">
-            <span class="data_num">{{ adminCount }}</span> 新增管理员
-          </div></el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="4"
-          ><div class="data_list all_head">
-            <span class="data_num head">总数据：</span>
-          </div></el-col
-        >
-        <el-col :span="4"
-          ><div class="data_list">
-            <span class="data_num">{{ allUserCount }}</span> 注册用户
-          </div></el-col
-        >
-        <el-col :span="4"
-          ><div class="data_list">
-            <span class="data_num">{{ allOrderCount }}</span> 订单
-          </div></el-col
-        >
-        <el-col :span="4"
-          ><div class="data_list">
-            <span class="data_num">{{ allAdminCount }}</span> 管理员
-          </div></el-col
-        >
-      </el-row>
-    </div>
+    <el-row>
+      <el-col :span="18" :offset="6">
+        <div class="statistical">
+          <el-row style="marginbottom: 10px">
+            <el-col :span="4"
+              ><div class="data_list today_head">
+                <span class="data_num head">当日数据：</span>
+              </div></el-col
+            >
+            <el-col :span="4"
+              ><div class="data_list">
+                <span class="data_num">{{ userCount }}</span> 新增用户
+              </div></el-col
+            >
+            <el-col :span="4"
+              ><div class="data_list">
+                <span class="data_num">{{ orderCount }}</span> 新增订单
+              </div></el-col
+            >
+            <el-col :span="4"
+              ><div class="data_list">
+                <span class="data_num">{{ adminCount }}</span> 新增管理员
+              </div></el-col
+            >
+          </el-row>
+          <el-row style="margin-top: 15px">
+            <el-col :span="4"
+              ><div class="data_list all_head">
+                <span class="data_num head">总数据：</span>
+              </div></el-col
+            >
+            <el-col :span="4"
+              ><div class="data_list">
+                <span class="data_num">{{ allUserCount }}</span> 注册用户
+              </div></el-col
+            >
+            <el-col :span="4"
+              ><div class="data_list">
+                <span class="data_num">{{ allOrderCount }}</span> 订单
+              </div></el-col
+            >
+            <el-col :span="4"
+              ><div class="data_list">
+                <span class="data_num">{{ allAdminCount }}</span> 管理员
+              </div></el-col
+            >
+          </el-row>
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
+import daytime from "time-formater";
+import {
+  todayRegisterUser,
+  registerUser,
+  todayOrderCount,
+  getOrderCount,
+  getAdminCount,
+  todayAdminCount,
+} from "@/network";
 export default {
-  name: "home",
+  name: "Home",
   data() {
     return {
       Breadcrumb: [""],
+      userCount: null,
+      orderCount: null,
+      adminCount: null,
+      allUserCount: null,
+      allOrderCount: null,
+      allAdminCount: null,
+      today:''
     };
   },
-
-  methods: {},
+  mounted() {
+    this.initDate();
+  },
+  methods: {
+    initDate() {
+      this.today = daytime().format("YYYY-MM-DD");
+      Promise.all([
+        todayRegisterUser(this.today),
+        registerUser(),
+        todayOrderCount(this.today),
+        getOrderCount(),
+        todayAdminCount(this.today),
+        getAdminCount(),
+      ]).then(res => {
+        this.userCount = res[0].data.count
+        this.allUserCount = res[1].data.count
+        this.orderCount = res[2].data.count
+        this.allOrderCount = res[3].data.count
+        this.adminCount = res[4].data.count
+        this.allAdminCount = res[5].data.count
+      }).catch(error=>
+      console.log(error))
+    },
+  },
 };
 </script>
 
