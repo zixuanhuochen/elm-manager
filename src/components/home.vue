@@ -52,20 +52,25 @@
         </div>
       </el-col>
     </el-row>
+    <el-row>
+      <homeEcharts :weekDay="weekDay" :weekData="weekData"></homeEcharts>
+    </el-row>
   </div>
 </template>
 
 <script>
 import daytime from "time-formater";
 import {
-  todayRegisterUser,
+  dayRegisterUser,
   registerUser,
-  todayOrderCount,
+  dayOrderCount,
   getOrderCount,
   getAdminCount,
-  todayAdminCount,
+  dayAdminCount,
 } from "@/network";
+import homeEcharts from "./common/homeEcharts.vue";
 export default {
+  components: { homeEcharts },
   name: "Home",
   data() {
     return {
@@ -76,7 +81,9 @@ export default {
       allUserCount: null,
       allOrderCount: null,
       allAdminCount: null,
-      today:''
+      today: "",
+      weekDay: [],
+      weekData: [[], [], []],
     };
   },
   mounted() {
@@ -86,21 +93,46 @@ export default {
     initDate() {
       this.today = daytime().format("YYYY-MM-DD");
       Promise.all([
-        todayRegisterUser(this.today),
+        dayRegisterUser(this.today),
         registerUser(),
-        todayOrderCount(this.today),
+        dayOrderCount(this.today),
         getOrderCount(),
-        todayAdminCount(this.today),
+        dayAdminCount(this.today),
         getAdminCount(),
-      ]).then(res => {
-        this.userCount = res[0].data.count
-        this.allUserCount = res[1].data.count
-        this.orderCount = res[2].data.count
-        this.allOrderCount = res[3].data.count
-        this.adminCount = res[4].data.count
-        this.allAdminCount = res[5].data.count
-      }).catch(error=>
-      console.log(error))
+      ])
+        .then((res) => {
+          this.userCount = res[0].data.count;
+          this.allUserCount = res[1].data.count;
+          this.orderCount = res[2].data.count;
+          this.allOrderCount = res[3].data.count;
+          this.adminCount = res[4].data.count;
+          this.allAdminCount = res[5].data.count;
+        })
+        .catch((error) => console.log(error));
+      this.getWeekDay();
+    },
+    getWeekDay() {
+      let dtime = new Date().getTime();
+      for (let i = 0; i < 7; i++) {
+        let day = dtime - 86400000 * i;
+        // day.daytime().format("YYYY-MM-DD")
+        this.weekDay.unshift(daytime(day).format("YYYY-MM-DD"));
+      }
+      let weekday = [[], [], []];
+      this.weekDay.forEach((item) => {
+        Promise.all([
+          dayRegisterUser(item),
+          dayOrderCount(item),
+          dayAdminCount(item),
+        ])
+          .then((res) => {
+            weekday[0].push(res[0].data.count);
+            weekday[1].push(res[1].data.count);
+            weekday[2].push(res[2].data.count);
+          })
+          .catch((error) => console.log(error));
+      });
+      this.weekData = weekday;
     },
   },
 };
