@@ -35,141 +35,54 @@ echarts.use([
 
 export default {
   name: "homeEcharts",
-  props: ["weekDay", "weekData"],
+  props: {
+    options: {
+      type: Object,
+    },
+  },
   data() {
     return {
-      option: {
-        title: {
-          text: "走势图",
-        },
-        tooltip: {
-          trigger: "axis",
-        },
-        legend: {
-          data: ["新注册用户", "新增订单", "新增管理员"],
-        },
-        toolbox: {
-          show: true,
-          feature: {
-            dataZoom: {
-              yAxisIndex: "none",
-            },
-            dataView: { readOnly: false },
-            magicType: { type: ["line", "bar"] },
-            restore: {},
-            saveAsImage: {},
-          },
-        },
-        xAxis: {
-          type: "category",
-          boundaryGap: false,
-          data: null,
-        },
-        yAxis: [
-          {
-            type: "value",
-            name: "用户",
-            min: 0,
-            max: 200,
-            position: "left",
-            axisLine: {
-              lineStyle: {
-                color: "#999",
-              },
-            },
-            axisLabel: {
-              formatter: "{value}",
-            },
-          },
-          {
-            type: "value",
-            name: "订单",
-            min: 0,
-            max: 200,
-            position: "right",
-            axisLine: {
-              lineStyle: {
-                color: "#999",
-              },
-            },
-            axisLabel: {
-              formatter: "{value}",
-            },
-          },
-        ],
-        series: [
-          {
-            name: "新注册用户",
-            type: "line",
-            data: null,
-            markPoint: {
-              data: [
-                { type: "max", name: "最大值" },
-                { type: "min", name: "最小值" },
-              ],
-            },
-          },
-          {
-            name: "新增订单",
-            type: "line",
-            data: null,
-            markPoint: {
-              data: [
-                { type: "max", name: "最大值" },
-                { type: "min", name: "最小值" },
-              ],
-            },
-          },
-          {
-            name: "新增管理员",
-            type: "line",
-            data: null,
-            markPoint: {
-              data: [
-                { type: "max", name: "最大值" },
-                { type: "min", name: "最小值" },
-              ],
-            },
-          },
-        ],
-      },
+      chart: null, // echart实例
     };
   },
   //生命周期 - 创建完成（访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（访问DOM元素）
   mounted() {
-    this.init()
-    this.initData()
+    this.$nextTick(() => {
+      this.initChart();
+    });
   },
-  methods: {
-    init() {
-      var chartDom = document.getElementById("home-echarts");
-      // chartDom.removeAttribute('_echarts_instance_')
-      var myChart = echarts.init(chartDom);
-      myChart.setOption(this.option, true);
-    },
-
-    initData() {
-      this.option.xAxis.data = this.weekDay;
-      this.option.series[0].data = this.weekData[0];
-      this.option.series[1].data = this.weekData[1];
-      this.option.series[2].data = this.weekData[2];
+ methods: {
+    initChart() {
+      this.chart = echarts.init(this.$el, "macarons");
+      this.chart.setOption(this.options);
     },
   },
-
-  // watch: {
-  //   // weekDay: function () {
-  //   //   console.log('触发');
-  //   //   this.initData();
-  //   //   this.init();
-  //   // },
-  //   weekData: function () {
-  //     this.initData();
-  //     this.init();
-    
-  //   },
-  // },
+  beforeDestroy() {
+    if (!this.chart) {
+      return;
+    }
+    this.chart.dispose();
+    this.chart = null;
+  },
+  watch: {
+    //观察options的变化
+    options: {
+      handler(newVal, oldVal) {
+        if (this.chart) {
+          if (newVal) {
+            this.chart.setOption(newVal, true);
+          } else {
+            this.chart.setOption(oldVal, true);
+          }
+        } else {
+          this.initChart();
+        }
+      },
+      deep: true, //对象内部属性的监听，关键。
+    },
+  },
 };
 </script>
 <style scoped lang='less'>

@@ -3,7 +3,7 @@
     <headerTop :Breadcrumb="Breadcrumb"></headerTop>
     <h1>数据统计</h1>
     <el-row>
-      <el-col :span="18" :offset="6">
+      <el-col :span="22" :offset="4">
         <div class="statistical">
           <el-row style="marginbottom: 10px">
             <el-col :span="4"
@@ -53,7 +53,7 @@
       </el-col>
     </el-row>
     <el-row>
-      <homeEcharts :weekDay="weekDay" :weekData="weekData"></homeEcharts>
+      <homeEcharts :options="option"></homeEcharts>
     </el-row>
   </div>
 </template>
@@ -82,12 +82,111 @@ export default {
       allOrderCount: null,
       allAdminCount: null,
       today: "",
+      timer: "",
       weekDay: [],
       weekData: [[], [], []],
+      option: {
+        title: {
+          text: "走势图",
+        },
+        tooltip: {
+          trigger: "axis",
+        },
+        legend: {
+          data: ["新注册用户", "新增订单", "新增管理员"],
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            dataZoom: {
+              yAxisIndex: "none",
+            },
+            dataView: { readOnly: false },
+            magicType: { type: ["line", "bar"] },
+            restore: {},
+            saveAsImage: {},
+          },
+        },
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          data: null,
+        },
+        yAxis: [
+          {
+            type: "value",
+            name: "用户",
+            min: 0,
+            max: 200,
+            position: "left",
+            axisLine: {
+              lineStyle: {
+                color: "#999",
+              },
+            },
+            axisLabel: {
+              formatter: "{value}",
+            },
+          },
+          {
+            type: "value",
+            name: "订单",
+            min: 0,
+            max: 200,
+            position: "right",
+            axisLine: {
+              lineStyle: {
+                color: "#999",
+              },
+            },
+            axisLabel: {
+              formatter: "{value}",
+            },
+          },
+        ],
+        series: [
+          {
+            name: "新注册用户",
+            type: "line",
+            data: null,
+            markPoint: {
+              data: [
+                { type: "max", name: "最大值" },
+                { type: "min", name: "最小值" },
+              ],
+            },
+          },
+          {
+            name: "新增订单",
+            type: "line",
+            data: null,
+            markPoint: {
+              data: [
+                { type: "max", name: "最大值" },
+                { type: "min", name: "最小值" },
+              ],
+            },
+          },
+          {
+            name: "新增管理员",
+            type: "line",
+            data: null,
+            markPoint: {
+              data: [
+                { type: "max", name: "最大值" },
+                { type: "min", name: "最小值" },
+              ],
+            },
+          },
+        ],
+      },
     };
   },
   mounted() {
     this.initDate();
+  },
+  beforeDestroy() {
+    clearTimeout(this.timer);
   },
   methods: {
     initDate() {
@@ -111,29 +210,31 @@ export default {
         .catch((error) => console.log(error));
       this.getWeekDay();
     },
-    getWeekDay() {
+    async getWeekDay() {
       let dtime = new Date().getTime();
       for (let i = 0; i < 7; i++) {
         let day = dtime - 86400000 * i;
         // day.daytime().format("YYYY-MM-DD")
         this.weekDay.unshift(daytime(day).format("YYYY-MM-DD"));
       }
-      let weekday = [[], [], []];
-      this.weekDay.forEach((item) => {
-        Promise.all([
+     
+      for (let item of this.weekDay) {
+        const res = await  Promise.all([
           dayRegisterUser(item),
           dayOrderCount(item),
           dayAdminCount(item),
-        ])
-          .then((res) => {
-            weekday[0].push(res[0].data.count);
-            weekday[1].push(res[1].data.count);
-            weekday[2].push(res[2].data.count);
-          })
-          .catch((error) => console.log(error));
-      });
-      this.weekData = weekday;
+        ]);
+        this.weekData[0].push(res[0].data.count);
+        this.weekData[1].push(res[1].data.count);
+        this.weekData[2].push(res[2].data.count);
+        
+      }
+      this.option.xAxis.data = this.weekDay;
+      this.option.series[0].data = this.weekData[0];
+      this.option.series[1].data = this.weekData[1];
+      this.option.series[2].data = this.weekData[2];
     },
+    
   },
 };
 </script>
