@@ -25,6 +25,7 @@
     "compression-webpack-plugin": "^9.2.0",
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "vue-template-compiler": "^2.6.11",
     "webpack-bundle-analyzer": "^4.5.0"
   }
